@@ -1,7 +1,6 @@
 import os
 
 from PySide6 import QtWidgets, QtUiTools, QtCore
-
 from twobodyproblem import preset
 
 

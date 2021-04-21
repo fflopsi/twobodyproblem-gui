@@ -3,7 +3,6 @@ from pathlib import Path
 
 import yaml
 from PySide6 import QtWidgets, QtUiTools, QtCore
-
 from twobodyproblem.options import Options
 
 
