@@ -7,6 +7,7 @@ import twobodyproblem_gui
 from twobodyproblem_gui.entry import EntryWindow
 
 if __name__ == "__main__":
+    # add CLI arguments
     parser = argparse.ArgumentParser(
         prog="twobodyproblem_gui",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -33,6 +34,8 @@ if __name__ == "__main__":
         print("debugging activated...")
         print("passed arguments:", end=" ")
         print(sys.argv)
+
+    # run the GUI app
     app = QtWidgets.QApplication(sys.argv)
     window = EntryWindow(debug=args.debug)
     window.ui.show()
