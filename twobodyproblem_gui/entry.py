@@ -5,10 +5,11 @@ from pathlib import Path
 import yaml
 from PySide6 import QtGui, QtWidgets, QtCore, QtUiTools
 from twobodyproblem import preset
-from twobodyproblem.examples import ExamplesWindow
-from twobodyproblem.settings import SettingsWindow
 from twobodyproblem.values import Values
 from twobodyproblem.visualization.simulation import Simulation
+
+from twobodyproblem_gui.examples import ExamplesWindow
+from twobodyproblem_gui.settings import SettingsWindow
 
 
 class EntryWindow(QtWidgets.QMainWindow):
