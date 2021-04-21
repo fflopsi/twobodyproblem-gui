@@ -2,10 +2,8 @@ import os
 import sys
 from pathlib import Path
 
-import vpython as vp
 import yaml
 from PySide6 import QtGui, QtWidgets, QtCore, QtUiTools
-
 from twobodyproblem import preset
 from twobodyproblem.examples import ExamplesWindow
 from twobodyproblem.settings import SettingsWindow
@@ -58,10 +56,6 @@ class EntryWindow(QtWidgets.QMainWindow):
         self.ui.actionEinstellungen.triggered.connect(self.w_settings.ui.show)
         # set the tab for central as "default"
         self.ui.tabWidget.setCurrentIndex(0)
-
-        # values needed during simulation
-        self.pause = False
-        self.pause_sim: vp.button
 
     def restart(self):
         """restart the program"""
