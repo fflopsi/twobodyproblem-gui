@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-import yaml
 from PySide6 import QtGui, QtWidgets, QtCore, QtUiTools
 from twobodyproblem import preset
 from twobodyproblem.values import Values
@@ -49,7 +48,8 @@ class EntryWindow(QtWidgets.QMainWindow):
         self.ui.actionNeu_starten.triggered.connect(self.restart)
         self.ui.actiongespeicherte_Werte_laden.triggered.connect(self.load)
         self.ui.actionWertedatei_oeffnen.triggered.connect(self.load_from)
-        self.ui.actionWerte_speichern.triggered.connect(self.save)
+        self.ui.actionWerte_speichern.triggered.connect(
+            lambda: self.get().save())
         self.ui.actionWertedatei_speichern_unter.triggered.connect(
             self.save_as)
         self.ui.actionVoreinstellungen.triggered.connect(
@@ -171,22 +171,13 @@ class EntryWindow(QtWidgets.QMainWindow):
             print(values.to_dict())
         return values
 
-    def save(self):
-        """save values to standard file"""
-        with open(self.directory + "/saved_data/values.yml", "w+") as f:
-            f.write(yaml.dump(self.get().to_dict()))
-        if self.debug:
-            print("values have been saved to: "
-                  + self.directory + "/saved_data/values.yml")
-
     def save_as(self):
         """save values to file with QFileDialog"""
         name = QtWidgets.QFileDialog.getSaveFileName(
             parent=self, caption="Eingaben speichern",
             dir=str(Path.home()) + "/Documents", filter="YAML (*.yml)")
         if name[0] != "":
-            with open(name[0], "w+") as f:
-                f.write(yaml.dump(self.get().to_dict()))
+            self.get().save(name[0])
             if self.debug:
                 print("values have been saved to: " + name[0])
 
@@ -194,12 +185,7 @@ class EntryWindow(QtWidgets.QMainWindow):
         """load and fill in saved values"""
         # try to load the value file
         try:
-            with open(self.directory + "/saved_data/values.yml", "r") as f:
-                self.fill(Values.from_dict(
-                    yaml.load(f, Loader=yaml.FullLoader)))
-            if self.debug:
-                print("values have been loaded from: "
-                      + self.directory + "/saved_data/values.yml")
+            self.fill(Values.from_file())
         except FileNotFoundError:
             err = QtWidgets.QMessageBox()
             err.setIcon(QtWidgets.QMessageBox.Critical)
@@ -213,8 +199,6 @@ class EntryWindow(QtWidgets.QMainWindow):
             parent=self, caption="Wertedatei öffnen",
             dir=str(Path.home()) + "/Documents", filter="YAML (*.yml))")
         if name[0] != "":
-            with open(name[0], "r") as f:
-                self.fill(Values.from_dict(
-                    yaml.load(f, Loader=yaml.FullLoader)))
+            self.fill(Values.load(name[0]))
             if self.debug:
                 print("values have been loaded from: " + name[0])
