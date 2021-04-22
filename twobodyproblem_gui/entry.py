@@ -46,12 +46,14 @@ class EntryWindow(QtWidgets.QMainWindow):
         self.ui.b_reset.clicked.connect(self.clear)
         self.ui.actionVerlassen.triggered.connect(self.ui.close)
         self.ui.actionNeu_starten.triggered.connect(self.restart)
-        self.ui.actiongespeicherte_Werte_laden.triggered.connect(self.load)
-        self.ui.actionWertedatei_oeffnen.triggered.connect(self.load_from)
+        self.ui.actiongespeicherte_Werte_laden.triggered.connect(
+            lambda: self.load())
+        self.ui.actionWertedatei_oeffnen.triggered.connect(
+            lambda: self.load(False))
         self.ui.actionWerte_speichern.triggered.connect(
-            lambda: self.get().save())
+            lambda: self.save())
         self.ui.actionWertedatei_speichern_unter.triggered.connect(
-            self.save_as)
+            lambda: self.save(False))
         self.ui.actionVoreinstellungen.triggered.connect(
             self.w_examples.ui.show)
         self.ui.actionEinstellungen.triggered.connect(self.w_settings.ui.show)
@@ -171,42 +173,53 @@ class EntryWindow(QtWidgets.QMainWindow):
             print(values.to_dict())
         return values
 
-    def save_as(self):
-        """save values to file with QFileDialog"""
+    def save(self, default=True):
+        """save values to file with QFileDialog
+
+        args:
+            default: True if saving to default file (default True)
+        """
         dir_path = str(Path.home()) + "/Documents/TwoBodyProblem"
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
-        name = QtWidgets.QFileDialog.getSaveFileName(
-            parent=self, caption="Eingaben speichern",
-            dir=str(Path.home()) + "/Documents/TwoBodyProblem",
-            filter="YAML (*.yml)")
-        if name[0] != "":
-            self.get().save(name[0])
+        if default:
+            self.get().save()
             if self.debug:
-                print("values have been saved to: " + name[0])
+                print("values saved to: " + dir_path + "/values.yml")
+        else:
+            name = QtWidgets.QFileDialog.getSaveFileName(
+                parent=self, caption="Eingaben speichern",
+                dir=dir_path, filter="YAML (*.yml)")
+            if name[0] != "":
+                self.get().save(name[0])
+                if self.debug:
+                    print("values saved to: " + name[0])
 
-    def load(self):
-        """load and fill in saved values"""
-        # try to load the value file
-        try:
-            self.fill(Values.from_file())
-        except FileNotFoundError:
-            err = QtWidgets.QMessageBox()
-            err.setIcon(QtWidgets.QMessageBox.Critical)
-            err.setText("keine gespeicherten Werte vorhanden")
-            err.setWindowTitle("Fehler")
-            err.exec()
+    def load(self, default=True):
+        """load values file with QFileDialog
 
-    def load_from(self):
-        """load values file with QFileDialog"""
+        args:
+            default: True if loading from default file (default True)
+        """
         dir_path = str(Path.home()) + "/Documents/TwoBodyProblem"
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
-        name = QtWidgets.QFileDialog.getOpenFileName(
-            parent=self, caption="Wertedatei öffnen",
-            dir=str(Path.home()) + "/Documents/TwoBodyProblem",
-            filter="YAML (*.yml))")
-        if name[0] != "":
-            self.fill(Values.from_file(name[0]))
-            if self.debug:
-                print("values have been loaded from: " + name[0])
+        if default:
+            try:
+                self.fill(Values.from_file())
+                if self.debug:
+                    print("values loaded from: " + dir_path + "/values.yml")
+            except FileNotFoundError:
+                err = QtWidgets.QMessageBox()
+                err.setIcon(QtWidgets.QMessageBox.Critical)
+                err.setText("keine gespeicherten Werte vorhanden")
+                err.setWindowTitle("Fehler")
+                err.exec()
+        else:
+            name = QtWidgets.QFileDialog.getOpenFileName(
+                parent=self, caption="Wertedatei öffnen",
+                dir=dir_path, filter="YAML (*.yml))")
+            if name[0] != "":
+                self.fill(Values.from_file(name[0]))
+                if self.debug:
+                    print("values loaded from: " + name[0])
