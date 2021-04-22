@@ -199,6 +199,6 @@ class EntryWindow(QtWidgets.QMainWindow):
             parent=self, caption="Wertedatei öffnen",
             dir=str(Path.home()) + "/Documents", filter="YAML (*.yml))")
         if name[0] != "":
-            self.fill(Values.load(name[0]))
+            self.fill(Values.from_file(name[0]))
             if self.debug:
                 print("values have been loaded from: " + name[0])
