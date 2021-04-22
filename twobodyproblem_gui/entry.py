@@ -173,9 +173,13 @@ class EntryWindow(QtWidgets.QMainWindow):
 
     def save_as(self):
         """save values to file with QFileDialog"""
+        dir_path = str(Path.home()) + "/Documents/TwoBodyProblem"
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
         name = QtWidgets.QFileDialog.getSaveFileName(
             parent=self, caption="Eingaben speichern",
-            dir=str(Path.home()) + "/Documents", filter="YAML (*.yml)")
+            dir=str(Path.home()) + "/Documents/TwoBodyProblem",
+            filter="YAML (*.yml)")
         if name[0] != "":
             self.get().save(name[0])
             if self.debug:
@@ -195,9 +199,13 @@ class EntryWindow(QtWidgets.QMainWindow):
 
     def load_from(self):
         """load values file with QFileDialog"""
+        dir_path = str(Path.home()) + "/Documents/TwoBodyProblem"
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
         name = QtWidgets.QFileDialog.getOpenFileName(
             parent=self, caption="Wertedatei öffnen",
-            dir=str(Path.home()) + "/Documents", filter="YAML (*.yml))")
+            dir=str(Path.home()) + "/Documents/TwoBodyProblem",
+            filter="YAML (*.yml))")
         if name[0] != "":
             self.fill(Values.from_file(name[0]))
             if self.debug:
