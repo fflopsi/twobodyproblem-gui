@@ -174,7 +174,7 @@ class EntryWindow(QtWidgets.QMainWindow):
         return values
 
     def save(self, default=True):
-        """save values to file with QFileDialog
+        """save values to file
 
         args:
             default: True if saving to default file (default True)
@@ -196,7 +196,7 @@ class EntryWindow(QtWidgets.QMainWindow):
                     print("values saved to: " + name[0])
 
     def load(self, default=True):
-        """load values file with QFileDialog
+        """load values file
 
         args:
             default: True if loading from default file (default True)
