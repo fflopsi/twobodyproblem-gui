@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-import yaml
 from PySide6 import QtWidgets, QtUiTools, QtCore
 from twobodyproblem.options import Options
 
@@ -27,10 +26,12 @@ class SettingsWindow(QtWidgets.QMainWindow):
         self.directory = os.path.dirname(os.path.realpath(__file__))
         self.ui = QtUiTools.QUiLoader().load(
             QtCore.QFile(self.directory + "/ui/settings.ui"))
-        self.ui.actionSpeichern.triggered.connect(self.save)
-        self.ui.actionSpeichern_unter.triggered.connect(self.save_as)
-        self.ui.actionLaden.triggered.connect(self.load)
-        self.ui.actionLaden_von.triggered.connect(self.load_from)
+        self.ui.actionSpeichern.triggered.connect(lambda: self.save())
+        self.ui.actionSpeichern_unter.triggered.connect(
+            lambda: self.save(default=False))
+        self.ui.actionLaden.triggered.connect(lambda: self.load())
+        self.ui.actionLaden_von.triggered.connect(
+            lambda: self.load(default=False))
         self.ui.actionVerlassen.triggered.connect(self.ui.close)
         self.ui.b_ok.clicked.connect(lambda: (self.save(), self.ui.close()))
         self.ui.b_close.clicked.connect(self.ui.close)
@@ -89,53 +90,58 @@ class SettingsWindow(QtWidgets.QMainWindow):
             print(options.to_dict())
         return options
 
-    def save(self):
-        """save the entered settings to standard file"""
-        with open(self.directory + "/saved_data/settings.yml", "w+") as f:
-            f.write(yaml.dump(self.get().to_dict()))
-        if self.debug:
-            print("settings have been saved to: "
-                  + self.directory + "/saved_data/settings.yml")
+    def save(self, default=True):
+        """save settings to file
 
-    def save_as(self):
-        """save settings to file with QFileDialog"""
-        name = QtWidgets.QFileDialog.getSaveFileName(
-            parent=self, caption="Einstellungen speichern",
-            dir=str(Path.home()) + "/Documents", filter="YAML (*.yml)")
-        if name[0] != "":
-            with open(name[0], "w+") as f:
-                f.write(yaml.dump(self.get().to_dict()))
+        args:
+            default: True if saving to default file (default True)
+        """
+        dir_path = str(Path.home()) + "/Documents/TwoBodyProblem"
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        if default:
+            self.get().save()
             if self.debug:
-                print("settings have been saved to: " + name[0])
+                print("settings saved to: " + dir_path +
+                      "/default/settings.yml")
+        else:
+            name = QtWidgets.QFileDialog.getSaveFileName(
+                parent=self, caption="Einstellungen speichern",
+                dir=dir_path, filter="YAML (*.yml)")
+            if name[0] != "":
+                self.get().save(name[0])
+                if self.debug:
+                    print("settings saved to: " + name[0])
 
-    def load(self):
-        """load and fill in saved settings"""
-        # try to load the settings file
-        try:
-            with open(self.directory + "/saved_data/settings.yml", "r") as f:
-                self.fill(Options.from_dict(
-                    yaml.load(f, Loader=yaml.FullLoader)))
-            if self.debug:
-                print("settings have been loaded from: "
-                      + self.directory + "/saved_data/settings.yml")
-        except FileNotFoundError:
-            err = QtWidgets.QMessageBox()
-            err.setIcon(QtWidgets.QMessageBox.Critical)
-            err.setText("keine gespeicherten Einstellungen vorhanden")
-            err.setWindowTitle("Fehler")
-            err.exec()
+    def load(self, default=True):
+        """load settings file
 
-    def load_from(self):
-        """load settings file with QFileDialog"""
-        name = QtWidgets.QFileDialog.getOpenFileName(
-            parent=self, caption="Einstellungsdatei öffnen",
-            dir=str(Path.home()) + "/Documents", filter="YAML (*.yml))")
-        if name[0] != "":
-            with open(name[0], "r") as f:
-                self.fill(Options.from_dict(
-                    yaml.load(f, Loader=yaml.FullLoader)))
-            if self.debug:
-                print("settings have been loaded from: " + name[0])
+        args:
+            default: True if loading from default file (default True)
+        """
+        dir_path = str(Path.home()) + "/Documents/TwoBodyProblem"
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        if default:
+            try:
+                self.fill(Options.from_file())
+                if self.debug:
+                    print("settings loaded from: " + dir_path +
+                          "/default/settings.yml")
+            except FileNotFoundError:
+                err = QtWidgets.QMessageBox()
+                err.setIcon(QtWidgets.QMessageBox.Critical)
+                err.setText("keine gespeicherten Einstellungen vorhanden")
+                err.setWindowTitle("Fehler")
+                err.exec()
+        else:
+            name = QtWidgets.QFileDialog.getOpenFileName(
+                parent=self, caption="Einstellungsdatei öffnen",
+                dir=dir_path, filter="YAML (*.yml))")
+            if name[0] != "":
+                self.fill(Options.from_file(name[0]))
+                if self.debug:
+                    print("settings loaded from: " + name[0])
 
     def show_pointers_changed_action(self):
         """changes enabled state of the pointer color choosing fields"""
