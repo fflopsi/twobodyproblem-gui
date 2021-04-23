@@ -46,14 +46,14 @@ class EntryWindow(QtWidgets.QMainWindow):
         self.ui.b_reset.clicked.connect(self.clear)
         self.ui.actionVerlassen.triggered.connect(self.ui.close)
         self.ui.actionNeu_starten.triggered.connect(self.restart)
-        self.ui.actiongespeicherte_Werte_laden.triggered.connect(
-            lambda: self.load())
-        self.ui.actionWertedatei_oeffnen.triggered.connect(
-            lambda: self.load(False))
         self.ui.actionWerte_speichern.triggered.connect(
             lambda: self.save())
         self.ui.actionWertedatei_speichern_unter.triggered.connect(
             lambda: self.save(False))
+        self.ui.actiongespeicherte_Werte_laden.triggered.connect(
+            lambda: self.load())
+        self.ui.actionWertedatei_oeffnen.triggered.connect(
+            lambda: self.load(False))
         self.ui.actionVoreinstellungen.triggered.connect(
             self.w_examples.ui.show)
         self.ui.actionEinstellungen.triggered.connect(self.w_settings.ui.show)
@@ -185,7 +185,7 @@ class EntryWindow(QtWidgets.QMainWindow):
         if default:
             self.get().save()
             if self.debug:
-                print("values saved to: " + dir_path + "/values.yml")
+                print("values saved to: " + dir_path + "/default/values.yml")
         else:
             name = QtWidgets.QFileDialog.getSaveFileName(
                 parent=self, caption="Eingaben speichern",
@@ -208,7 +208,8 @@ class EntryWindow(QtWidgets.QMainWindow):
             try:
                 self.fill(Values.from_file())
                 if self.debug:
-                    print("values loaded from: " + dir_path + "/values.yml")
+                    print("values loaded from: " + dir_path +
+                          "/default/values.yml")
             except FileNotFoundError:
                 err = QtWidgets.QMessageBox()
                 err.setIcon(QtWidgets.QMessageBox.Critical)
