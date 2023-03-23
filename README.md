@@ -1,11 +1,11 @@
 # Two Body Problem &ndash; GUI
 
-### the GUI to the simulation
+### The GUI to the simulation
 
 **Welcome!**
 
 This is the repository for the graphical user interface of
-[this repository](https://github.com/Two-Body-Problem/twobodyproblem-simulation-python)
+[this repository](https://github.com/twobodyproblem/simulation-python)
 containing the base simulation. For more information about the whole program,
 go there.
 
@@ -17,8 +17,8 @@ parameters, have a more convenient interface to edit them, and more.
 
 [Installation Instructions](#installation-instructions)
 
-- [via PyPi](#via-pypi)
-- [via GitHub](#via-github)
+- [Via PyPi](#via-pypi)
+- [Via GitHub](#via-github)
 
 [Usage](#usage)
 
@@ -28,7 +28,7 @@ parameters, have a more convenient interface to edit them, and more.
 it from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools) if
 needed.)*
 
-### via PyPi
+### Via PyPi
 
 *The Python package manager pip will install the last uploaded version from the
 Python Package Index [PyPi](https://pypi.org/project/twobodyproblem_gui). This
@@ -38,34 +38,29 @@ features, install it from GitHub (see [below](#via-github)).*
 1. Make sure [Python](https://www.python.org/downloads) and pip are installed
    correctly.
 1. Run these commands from a command line:
-    1. `pip3 install --upgrade pip setuptools wheel`
-    1. `pip3 install --upgrade twobodyproblem_gui`
-1. Now, the program is runnable with `python -m twobodyproblem_gui` or
-   `python3 -m twobodyproblem_gui`.
+    1. `pip install --upgrade pip setuptools wheel`
+    1. `pip install --upgrade twobodyproblem_gui`
+1. Now, the program is usable with `python -m twobodyproblem_gui`.
 
-### via GitHub
+### Via GitHub
 
 1. Install the
-   [base program](https://github.com/Two-Body-Problem/twobodyproblem-simulation-python#via-github)
+   [base program](https://github.com/twobodyproblem/simulation-python#via-github)
 1. Run these commands from a command line:
     1. `cd TwoBody` (or whatever folder you stored the base program files in)
-    1. `git clone https://github.com/Two-Body-Problem/twobodyproblem-simulation-python-gui.git`
-    1. `pip3 install twobodyproblem-simulation-python-gui`
-1. Now, the program is runnable with `python -m twobodyproblem_gui` or
-   `python3 -m twobodyproblem_gui`.
+    1. `git clone https://github.com/twobodyproblem/simulation-python-gui.git`
+    1. `pip install ./simulation-python-gui/`
+1. Now, the program is runnable with `python -m twobodyproblem_gui`.
 
 ## Usage
 
 *To learn more about how to run the program with different options,
-run `python -m twbodyproblem_gui -h` or `python3 -m twbodyproblem_gui -h`
-respectively.*
+run `python -m twbodyproblem_gui -h`.*
 
 *To learn more about the base program / the simulation itself, read
-[this](https://github.com/Two-Body-Problem/twobodyproblem-simulation-python#usage)
-first.*
+[this](https://github.com/twobodyproblem/simulation-python#usage) first.*
 
-Run the program with `python -m twobodyproblem_gui` or
-`python3 -m twobodyproblem_gui` on a command line.
+Run the program with `python -m twobodyproblem_gui` on a command line.
 
 The program will open a window with some input fields. This is the main window
 where you input the values. To save values, press <kbd>Ctrl</kbd>+<kbd>S</kbd>.
@@ -85,7 +80,3 @@ lower right corner.
 
 To start the simulation, press the button in the lower right corner in the main
 window.
-
-***
-
-*Participation in this README is always welcome!*
