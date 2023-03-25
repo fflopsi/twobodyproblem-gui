@@ -13,16 +13,7 @@ In this additional GUI, there are more possibilities than in the normal (CLI)
 program. For example, you can choose from presets instead of typing in your own
 parameters, have a more convenient interface to edit them, and more.
 
-## Table of Contents
-
-[Installation Instructions](#installation-instructions)
-
-- [Via PyPi](#via-pypi)
-- [Via GitHub](#via-github)
-
-[Usage](#usage)
-
-## Installation Instructions
+## Installation
 
 *(You may need Microsoft Visual C++ to be able to run the program, so install
 it from [here](https://visualstudio.microsoft.com/visual-cpp-build-tools) if
