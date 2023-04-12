@@ -5,9 +5,8 @@
 **Welcome!**
 
 This is the repository for the graphical user interface of
-[this repository](https://github.com/twobodyproblem/simulation-python)
-containing the base simulation. For more information about the whole program,
-go there.
+[this repository](https://github.com/fflopsi/twobodyproblem) containing the
+base simulation. For more information about the whole program, go there.
 
 In this additional GUI, there are more possibilities than in the normal (CLI)
 program. For example, you can choose from presets instead of typing in your own
@@ -36,11 +35,11 @@ features, install it from GitHub (see [below](#via-github)).*
 ### Via GitHub
 
 1. Install the
-   [base program](https://github.com/twobodyproblem/simulation-python#via-github)
+   [base program](https://github.com/fflopsi/twobodyproblem#via-github)
 1. Run these commands from a command line:
     1. `cd TwoBody` (or whatever folder you stored the base program files in)
-    1. `git clone https://github.com/twobodyproblem/simulation-python-gui.git`
-    1. `pip install ./simulation-python-gui/`
+    1. `git clone https://github.com/fflopsi/twobodyproblem-gui.git`
+    1. `pip install ./twobodyproblem-gui/`
 1. Now, the program is runnable with `python -m twobodyproblem_gui`.
 
 ## Usage
@@ -49,7 +48,7 @@ features, install it from GitHub (see [below](#via-github)).*
 run `python -m twbodyproblem_gui -h`.*
 
 *To learn more about the base program / the simulation itself, read
-[this](https://github.com/twobodyproblem/simulation-python#usage) first.*
+[this](https://github.com/fflopsi/twobodyproblem#usage) first.*
 
 Run the program with `python -m twobodyproblem_gui` on a command line.
 
